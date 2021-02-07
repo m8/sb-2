@@ -20,5 +20,9 @@ different version of sb which is simple python script for creating markdown & ht
 -contact.html
 ```
 
+## features
+- md support
+- rss generating
+
 ### dependencies
 - mistune for rendering markdown pages

@@ -8,6 +8,7 @@ from collections import OrderedDict
 
 style_path = "/assets/style/"
 blog_path = "/blog"
+site_url = "http://example.com"
 
 blog_check = False
 blog_list={}
@@ -73,6 +74,16 @@ def renderblogpage():
     f.write(layout)
     f.close()
 
+def renderrss():
+    sorted_blogs = reversed(sorted(blog_list))
+    line = ""
+    for s in sorted_blogs:
+        line += "<item> <title>{}</title> <link>{}/blog{}</link></item>\n".format(blog_list[s][0],site_url,blog_list[s][1])
+    layout = open("_templates/rss.xml").read()
+    layout = layout.replace('{{content}}',  line)
+    f = open("_site/rss.xml", "w")
+    f.write(layout)
+
 # Added for deleting previous generated site
 #try:
 #    shutil.rmtree('_site/')
@@ -82,3 +93,4 @@ def renderblogpage():
 
 iterate_folders('_content','_site')
 renderblogpage()
+renderrss()
