@@ -24,5 +24,9 @@ different version of sb which is simple python script for creating markdown & ht
 - md support
 - rss generating
 
+## to-do
+- create a simple _template folder
+- create a project structure 
+
 ### dependencies
 - mistune for rendering markdown pages
