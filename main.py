@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from collections import OrderedDict
 
-style_path = "/assets/style/"
+style_path = "/assets/"
 blog_path = "/blog"
 site_url = "http://example.com"
 
@@ -61,11 +61,16 @@ def rendermarkdown(src):
 def createUrl(text):
     return re.sub(r'[\W_]+', '_', text.lower())
 
-def renderblogpage():
+
+def renderBlogLinks():
     sorted_blogs = reversed(sorted(blog_list))
     line = ""
     for s in sorted_blogs:
-        line += "\n <li>{} &ndash; <a href=/blog{}>{}</a></li>\n".format(s,blog_list[s][1],blog_list[s][0])
+        line += "\n<article> <li>{} &ndash; <a href=/blog{}>{}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
+    return line
+
+def renderblogpage():
+    line = renderBlogLinks()
     layout = open("_templates/blogindex.html").read()
     layout = layout.replace('{{title}}',"Blog Sayfası")
     layout = layout.replace('{{content}}',  line)
@@ -93,4 +98,4 @@ def renderrss():
 
 iterate_folders('_content','_site')
 renderblogpage()
-renderrss()
+# renderrss()
