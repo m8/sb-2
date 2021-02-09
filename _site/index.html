@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title> Simple Blog | Home </title>
+    <link rel="stylesheet" href=/assets/style.css>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet"> </head>
+
+<body>
+    <div class="container">
+
+        <nav class="menu">
+            <div class="nav-left">
+                <ul>
+                    <li><a href="index.html"><img class="logo" src="favicon.png" alt="">simple blog 2</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="/contact.html">contact</a></li>
+                    <li><a href="/blog/">writings</a></li>
+                    <li><a href="/">home</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <p>Hey! My name is Mark. I'm using sb-2 with love!</p>
+<h3>How to Use Sb-2</h3>
+<p>different version of sb which is simple python script for creating markdown &amp; html websites. this script allows you to prepare templates and write the website as markdown. it also creates a blog index page. If you write with markdown, these pages are converted to html. If you wrote it in html, it is directly copied. However, it is possible to define variables in markdown pages. these are replaced in the html template.</p>
+<h3>Folders</h3>
+<p><strong>src</strong></p>
+<pre><code>-blog
+--example1.md
+--example2.md
+-index.html
+-contact.md
+</code></pre>
+<p><strong>dest</strong></p>
+<pre><code>-blog
+--example1.html
+--example2.html
+-index.html
+-contact.html
+</code></pre>
+<h2>features</h2>
+<ul>
+<li>md support</li>
+<li>rss generating</li>
+</ul>
+<h3>to-do</h3>
+<ul>
+<li>create a simple _template folder</li>
+<li>create a project structure </li>
+</ul>
+<h4>dependencies</h4>
+<ul>
+<li>mistune for rendering markdown pages</li>
+</ul>
+
+        </div>
+<!-- 
+        <div class="container">
+            {{blog}}
+        </div> -->
+    </div>
+</body>
+
+</html>
