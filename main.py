@@ -89,13 +89,15 @@ def renderrss():
     f = open("_site/rss.xml", "w")
     f.write(layout)
 
-# Added for deleting previous generated site
-#try:
-#    shutil.rmtree('_site/')
-#except OSError as e:
-#    print ("Error: %s - %s." % (e.filename, e.strerror))
+def main():
+    try:
+    shutil.rmtree('_site/')
+    except OSError as e:
+        print ("Error: %s - %s." % (e.filename, e.strerror))
 
+    iterate_folders('_content','_site')
+    renderblogpage()
+    renderrss()
 
-iterate_folders('_content','_site')
-renderblogpage()
-# renderrss()
+if __name__ == "__main__":
+    main()
