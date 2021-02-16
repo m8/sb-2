@@ -3,8 +3,12 @@ import os
 import shutil
 import mistune
 import re
-from datetime import datetime
+
+from datetime import date
+
 from collections import OrderedDict
+import argparse
+
 
 style_path = "/assets/"
 blog_path = "/blog"
@@ -12,6 +16,10 @@ site_url = "http://example.com"
 
 blog_check = False
 blog_list={}
+
+
+parser = argparse.ArgumentParser()
+# Parsers 
 
 def iterate_folders(src, dst, symlinks=False, ignore=None):
     global blog_check
@@ -66,7 +74,7 @@ def renderBlogLinks():
     sorted_blogs = reversed(sorted(blog_list))
     line = ""
     for s in sorted_blogs:
-        line += "\n<article> <li>{} &ndash; <a href=/blog{}>{}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
+        line += "\n<article> <li>{} &ndash; <a href=\"/blog{}>{}\"></a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
     return line
 
 def renderblogpage():
@@ -91,13 +99,34 @@ def renderrss():
 
 def main():
     try:
-    shutil.rmtree('_site/')
+        shutil.rmtree('_site/')
     except OSError as e:
         print ("Error: %s - %s." % (e.filename, e.strerror))
 
     iterate_folders('_content','_site')
     renderblogpage()
-    renderrss()
+    # renderrss()
+
+def create_new_post(filename):
+    f = open("_content/blog/" + str(date.today()) + "_"  + filename+".md", "a")
+    f.write("""---
+title: {}
+layout: main.html
+stylesheet: style.css
+date: {}
+permalink: /{}.html
+---
+    """.format(filename,date.today(),(filename + "_" + str(date.today()) ).lower() ))
+    f.close()
+
+
+parser.add_argument('-n','--new',dest="new", type=create_new_post, action="store", help='creates new post with current date')
+parser.add_argument("generate")
+
+results = parser.parse_args()
+
 
 if __name__ == "__main__":
-    main()
+    print("------- sb-2 -------")
+    if(results.generate):
+        main()
