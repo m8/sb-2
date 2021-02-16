@@ -3,9 +3,7 @@ import os
 import shutil
 import mistune
 import re
-
 from datetime import date
-
 from collections import OrderedDict
 import argparse
 
@@ -74,7 +72,7 @@ def renderBlogLinks():
     sorted_blogs = reversed(sorted(blog_list))
     line = ""
     for s in sorted_blogs:
-        line += "\n<article> <li>{} &ndash; <a href=\"/blog{}>{}\"></a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
+        line += "\t\n<article> <li>{} &ndash; <a href=\"/blog{}\"> {}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
     return line
 
 def renderblogpage():
