@@ -71,8 +71,13 @@ def createUrl(text):
 def renderBlogLinks():
     sorted_blogs = reversed(sorted(blog_list))
     line = ""
+    year=""
     for s in sorted_blogs:
-        line += "\t\n<article> <li>{} &ndash; <a href=\"/blog{}\"> {}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
+        blog_year = s.split('-')[0]
+        if(year!=blog_year):
+            line += "\n<h3>{}</h3>\n <hr>".format(blog_year)
+            year = blog_year
+        line += "\n<article> <li>{} &ndash; <a href=\"/blog{}\">{}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
     return line
 
 def renderblogpage():
