@@ -8,8 +8,8 @@ from collections import OrderedDict
 import argparse
 
 
-style_path = "assets/"
-blog_path = "blog"
+style_path = "/assets/"
+blog_path = "/blog"
 site_url = "http://example.com"
 
 blog_check = False
