@@ -6,7 +6,7 @@ import re
 from datetime import date
 from collections import OrderedDict
 import argparse
-
+import html
 
 style_path = "assets/"
 blog_path = "blog"
@@ -20,10 +20,11 @@ parser = argparse.ArgumentParser()
 # Parsers 
 
 class BlogPost:
-    def __init__(self, title, url, pdate):
+    def __init__(self, title, url, pdate,description):
         self.title = title
         self.url = url
         self.pdate = pdate
+        self.description = description
     def __lt__(self, other):
         return self.pdate < other.pdate # multiple same date fixed
 
@@ -104,7 +105,7 @@ def render_rss():
     sorted_blogs = reversed(blog_list)
     line = ""
     for blog in sorted_blogs:
-        line += "<item> <title>{}</title> <link>{}/blog{}</link> <pubDate>{}</pubDate></item>\n".format(blog.title,site_url,blog.url,blog.pdate)
+        line += "<item> <title>{}</title> <link>{}/blog{}</link> <pubDate>{}</pubDate> <description>{}</description></item>\n".format(blog.title,site_url,blog.url,blog.pdate,html.escape(blog.description))
     layout = open("_templates/rss.xml").read()
     layout = layout.replace('{{content}}',  line)
     f = open("_site/rss.xml", "w")
