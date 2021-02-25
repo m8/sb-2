@@ -104,7 +104,7 @@ def render_rss():
     sorted_blogs = reversed(blog_list)
     line = ""
     for blog in sorted_blogs:
-        line += "<item> <title>{}</title> <link>{}/blog{}</link></item>\n".format(blog.title,site_url,blog.url)
+        line += "<item> <title>{}</title> <link>{}/blog{}</link> <pubDate>{}</pubDate></item>\n".format(blog.title,site_url,blog.url,blog.pdate)
     layout = open("_templates/rss.xml").read()
     layout = layout.replace('{{content}}',  line)
     f = open("_site/rss.xml", "w")
