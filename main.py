@@ -25,7 +25,7 @@ class BlogPost:
         self.url = url
         self.pdate = pdate
     def __lt__(self, other):
-        return self.pdate < other.pdate
+        return self.pdate < other.pdate # multiple same date fixed
 
 
 def iterate_folders(src, dst, symlinks=False, ignore=None):
@@ -79,7 +79,7 @@ def createUrl(text):
 
 
 def render_blog_links():
-    blog_list.sort(reverse=True)
+    blog_list.sort(reverse=True) 
     line = ""
     year=""
     for blog in blog_list:
