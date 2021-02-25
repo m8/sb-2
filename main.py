@@ -19,6 +19,15 @@ blog_list={}
 parser = argparse.ArgumentParser()
 # Parsers 
 
+class BlogPost:
+    def __init__(self, title, url, pdate):
+        self.title = title
+        self.url = url
+        self.pdate = pdate
+    def __lt__(self, other):
+        return self.pdate < other.pdate
+
+
 def iterate_folders(src, dst, symlinks=False, ignore=None):
     global blog_check
     if not os.path.exists(dst):
@@ -58,30 +67,31 @@ def rendermarkdown(src):
     for var in range(8,len(filesrc)):
       md_content += filesrc[var]
     layout = layout.replace('{{title}}',title)
+    layout = layout.replace('{{date}}',date)
     layout = layout.replace('{{content}}',  markdown(md_content))
     layout = layout.replace('{{stylesheet}}',style_path+stylesheet)
     if(blog_check):
-        blog_list[date] =  [title,permalink]
+        blog_list.append(BlogPost(title,permalink,date))
     return [layout,permalink]
 
 def createUrl(text):
     return re.sub(r'[\W_]+', '_', text.lower())
 
 
-def renderBlogLinks():
-    sorted_blogs = reversed(sorted(blog_list))
+def render_blog_links():
+    blog_list.sort(reverse=True)
     line = ""
     year=""
-    for s in sorted_blogs:
-        blog_year = s.split('-')[0]
+    for blog in blog_list:
+        blog_year = blog.pdate.split('-')[0]
         if(year!=blog_year):
             line += "\n<h3>{}</h3>\n <hr>".format(blog_year)
             year = blog_year
-        line += "\n<article> <li>{} &ndash; <a href=\"/blog{}\">{}</a></li></article>\n".format(s,blog_list[s][1],blog_list[s][0])
+        line += "\n<article> <li><span class=\"date\"> {}</span> &ndash; <a href=\"/blog{}\">{}</a></li></article>\n".format(blog.pdate, blog.url, blog.title)
     return line
 
-def renderblogpage():
-    line = renderBlogLinks()
+def render_blog_page():
+    line = render_blog_links()
     layout = open("_templates/blogindex.html").read()
     layout = layout.replace('{{title}}',"Blog Sayfası")
     layout = layout.replace('{{content}}',  line)
@@ -90,11 +100,11 @@ def renderblogpage():
     f.write(layout)
     f.close()
 
-def renderrss():
-    sorted_blogs = reversed(sorted(blog_list))
+def render_rss():
+    sorted_blogs = reversed(blog_list)
     line = ""
-    for s in sorted_blogs:
-        line += "<item> <title>{}</title> <link>{}/blog{}</link></item>\n".format(blog_list[s][0],site_url,blog_list[s][1])
+    for blog in sorted_blogs:
+        line += "<item> <title>{}</title> <link>{}/blog{}</link></item>\n".format(blog.title,site_url,blog.url)
     layout = open("_templates/rss.xml").read()
     layout = layout.replace('{{content}}',  line)
     f = open("_site/rss.xml", "w")
@@ -107,14 +117,14 @@ def main():
         print ("Error: %s - %s." % (e.filename, e.strerror))
 
     iterate_folders('_content','_site')
-    renderblogpage()
-    # renderrss()
+    render_blog_page()
+    render_rss()
 
 def create_new_post(filename):
     f = open("_content/blog/" + str(date.today()) + "_"  + filename+".md", "a")
     f.write("""---
 title: {}
-layout: main.html
+layout: blog.html
 stylesheet: style.css
 date: {}
 permalink: /{}.html
